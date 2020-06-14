@@ -1,0 +1,12 @@
+Audi;A3;Otomobil
+Audi;A4;Otomobil
+Audi;A5;Otomobil
+Audi;A6;Otomobil
+Audi;A7;Otomobil
+BMC;Belde;Otobüs
+BMC;ProBus;Otobüs
+BMC;ProCity;Otobüs
+BMC;Fatih;Kamyon&Kamyonet
+BMC;Levend;Kamyon&Kamyonet
+Audi;Q5;Arazi,SUV&Pick-up
+Audi;Q7;Arazi,SUV&Pick-up

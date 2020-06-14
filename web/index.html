@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turkcell Test Web App</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div style="width: 75%; position: relative; left:10%; margin-top: 5%">
+        <div class="centered">
+            <h4>Arac Sorgulama Test İşlemi</h4>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-8">
+                <input id="search" type="text" class="form-control">
+            </div>
+            <div class="col-3">
+                <select id="deger" class="form-control">
+                    <option value="hepsi">Hepsi</option>
+                    <option value="marka">Marka</option>
+                    <option value="model">Model</option>
+                    <option value="sinif">Sınıf</option> 
+                    <option value="ara">Harf Ara</option>
+                </select>
+            </div>
+            <div class="col-1">
+                <button id="ara" class="btn btn-success">Ara</button>
+            </div>
+        </div>
+
+
+        <table id="table" class="table">
+            <thead>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Sınıf</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $("#table").DataTable({
+                "searching": false,
+                "lengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ]
+            });
+            getir();
+            $("#ara").click(function() {
+                getir();
+            });
+
+
+        });
+
+        function getir() {
+            var secili = $("#deger").val();
+            var adres = "";
+            if (secili == "hepsi")
+                adres = "http://localhost:8080/hepsi";
+            if (secili == "marka")
+                adres = "http://localhost:8080/marka/" + $("#search").val();
+            if (secili == "model")
+                adres = "http://localhost:8080/model/" + $("#search").val();
+            if (secili == "sinif")
+                adres = "http://localhost:8080/sinif/" + $("#search").val();
+            if (secili == "ara")
+                adres = "http://localhost:8080/ara/" + $("#search").val();
+
+            var table = $('#table').DataTable();
+            $.ajax({
+                type: "GET",
+                crossDomain: true,
+                url: adres,
+                success: function(data) {
+                    table.clear().draw();
+                    $.each(data, function(index, value) {
+                        var rowNode = table
+                            .row.add([value.marka, value.model, value.sinif])
+                            .draw()
+                            .node();
+                    });
+                },
+            });
+
+        }
+    </script>
+</body>
+
+</html>
